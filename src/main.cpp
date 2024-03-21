@@ -23,19 +23,86 @@ int* generate_array(int max_size){
     return arr;
 }
 
-int main(){
-    int size = 5; // Size to use for testing the algorithms
+void print_arr(int arr[], int n){
+    for (int x = 0; x<n; x++){
+        cout << arr[x] << " ";
+    }
+    cout << "\n";
+}
 
-    int* arr = generate_array(size);
+int main(){
+    int n = 3000; // Size to use for testing the algorithms 
+    int fib_n = 40; // Fibonacci total iterations
+    int64_t durations[5] = {0};
+
+    // -------------------------------------------{Selection sort}------------------------------------------- //
+    int* arr = generate_array(n);
+    print_arr(arr, n);
 
     auto start_time = chrono::high_resolution_clock::now();
     // ------------------------
-
+    selectionSort(arr,n);
     // ------------------------
     auto finish_time = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::microseconds>(finish_time-start_time);
+    durations[1] = duration.count();
+    print_arr(arr, n);
 
-    cout << "\nElapsed time: " << duration.count() << endl;
+    // -------------------------------------------{Linear Search}------------------------------------------- //
+    start_time = chrono::high_resolution_clock::now();
+    // ------------------------
+    if (linear_search(arr, n, 167) == -1){
+        cout << "Value not found" << endl;
+    }else {
+        cout << "Value found" << endl;
+    }
+    // ------------------------
+    finish_time = chrono::high_resolution_clock::now();
+    duration = chrono::duration_cast<chrono::microseconds>(finish_time-start_time);
+    durations[0] = duration.count();
+    delete[] arr;
+
+    // -------------------------------------------{Merge sort}------------------------------------------- //
+
+    arr = generate_array(n);
+    print_arr(arr, n);
+    start_time = chrono::high_resolution_clock::now();
+    // ------------------------
+    mergeSort(arr, 0, n-1);
+    // ------------------------
+    finish_time = chrono::high_resolution_clock::now();
+    duration = chrono::duration_cast<chrono::microseconds>(finish_time-start_time);
+    durations[2] = duration.count();
+    print_arr(arr, n);
+
+    // -------------------------------------------{Binary search}------------------------------------------- //
+    start_time = chrono::high_resolution_clock::now();
+    // ------------------------
+    if (binarySearch(arr, arr[0] , arr[n-1], 341) == -1){
+        cout << "Value not found" << endl;
+    }else {
+        cout << "Value found" << endl;
+    }
+    // ------------------------
+    finish_time = chrono::high_resolution_clock::now();
+    duration = chrono::duration_cast<chrono::microseconds>(finish_time-start_time);
+    durations[3] = duration.count();
+    delete[] arr;
+
+    // -------------------------------------------{Fibonacci recursion}------------------------------------------- //
+    start_time = chrono::high_resolution_clock::now();
+    // ------------------------
+    fib(fib_n);
+    // ------------------------
+    finish_time = chrono::high_resolution_clock::now();
+    duration = chrono::duration_cast<chrono::microseconds>(finish_time-start_time);
+    durations[4] = duration.count();
+
+    cout << "\nLinear search lasted: " << durations[0] << " microseconds" << endl;
+    cout << "\nSelection sort lasted: " << durations[1] << " microseconds" << endl;
+    cout << "\nMerge sort lasted: " << durations[2] << " microseconds" << endl;
+    cout << "\nBinary search lasted: " << durations[3] << " microseconds" << endl;
+    cout << "\nFibonacci recursion lasted: " << durations[4] << " microseconds" << endl;
 
     return 0;
 }
