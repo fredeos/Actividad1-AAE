@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "(TASK)C/C++: File linking & compiling",
+            "detail": "Compiles and links the respective .hpp/.cpp(except templates) files into a single executable",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "src/modules/**.cpp",
+                "src/main.cpp",
+                "-o",
+                "main"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ]
+}
